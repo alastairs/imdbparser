@@ -7,7 +7,7 @@ namespace IMDb.DataFiles.Parser.Types
 {
     public class SoundtrackRecord
     {
-        public Production MovieTitle { get; set; }
+        public Production Production { get; set; }
         public ICollection<Song> Songs { get; set; }
     }
 }
