@@ -11,18 +11,6 @@ namespace IMDb.DataFiles.Parser.Types
         private const string RegexSeriesNumberGroup = "series";
         private const string RegexEpisodeNumberGroup = "episode";
         
-        public override string Title
-        {
-            get;
-            set;
-        }
-
-        public override int Year
-        {
-            get;
-            set;
-        }
-
         public string EpisodeTitle
         {
             get;

@@ -8,19 +8,7 @@ namespace IMDb.DataFiles.Parser.Types
 {
     public class Movie : Production
     {
-        public override string Title
-        {
-            get;
-            set;
-        }
-
-        public override int Year
-        {
-            get;
-            set;
-        }
-
-        public static Production Parse(Match production)
+        new public static Production Parse(Match production)
         {
             int year = int.Parse(production.Groups[RegexYearGroup].Value);
             

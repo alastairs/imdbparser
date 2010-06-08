@@ -3,13 +3,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E6D12A96-EC92-45DE-B5BB-0A34F8A71764}</ProjectGuid>
+    <ProjectGuid>{EB4A45D2-0A90-471A-912A-01AC9872CAAE}</ProjectGuid>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IMDb.DataFiles.Parser</RootNamespace>
-    <AssemblyName>IMDb.DataFiles.Parser</AssemblyName>
+    <RootNamespace>IMDb.DataFiles.Parser.Test</RootNamespace>
+    <AssemblyName>IMDb.DataFiles.Parser.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,23 +32,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gallio" />
+    <Reference Include="MbUnit" />
+    <Reference Include="Moq">
+      <HintPath>lib\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Gallio35" />
+    <Reference Include="MbUnit35" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Types\Movie.cs" />
-    <Compile Include="Types\Production.cs" />
-    <Compile Include="Types\SoundtrackRecord.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="ProductionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Song.cs" />
-    <Compile Include="Types\TelevisionShow.cs" />
-    <Compile Include="Types\VideoGame.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IMDb.DataFiles.Parser\IMDb.DataFiles.Parser.csproj">
+      <Project>{E6D12A96-EC92-45DE-B5BB-0A34F8A71764}</Project>
+      <Name>IMDb.DataFiles.Parser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

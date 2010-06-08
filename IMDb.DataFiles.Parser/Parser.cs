@@ -10,8 +10,6 @@ namespace IMDb.DataFiles.Parser
 {
     public class Parser
     {
-        private static readonly Regex MovieTitleLineRegex = new Regex(
-            @"^\# ""?(?<title>.*)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>.*) \(\#(?<series>\d+)\.(?<episode>\d+)\)\})| \((?<videoGame>VG)\))?$");
         private static readonly Regex SongTitleLineRegex = new Regex(@"^- "".*""( \(uncredited\))?$");
 
         private Parser() { }
@@ -28,12 +26,12 @@ namespace IMDb.DataFiles.Parser
 
                 while (line != string.Empty)
                 {
-                    if (MovieTitleLineRegex.IsMatch(line))
+                    if (line.StartsWith("#"))
                     {
-                        production = Production.Parse(MovieTitleLineRegex.Match(line));
+                        production = Production.Parse(line);
                     }
 
-                    if (SongTitleLineRegex.IsMatch(line))
+                    if (line.StartsWith("-"))
                     {
                         
                     }
