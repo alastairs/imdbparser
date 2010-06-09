@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using IMDb.DataFiles.Parser.Interfaces;
+using IMDb.DataFiles.Parser.Factories;
 
 namespace IMDb.DataFiles.Parser.Types
 {
-    public class TelevisionShow : Production
+    public class TelevisionShow : Production, IProductionParser
     {
         private const string RegexSeriesNumberGroup = "series";
         private const string RegexEpisodeNumberGroup = "episode";
@@ -29,18 +31,19 @@ namespace IMDb.DataFiles.Parser.Types
             set;
         }
 
-        public static Production Parse(Match production)
+        public IProduction Parse(string productionDefinition)
         {
-            int year = int.Parse(production.Groups[RegexYearGroup].Value);
-            int episodeNumber = int.Parse(production.Groups[RegexEpisodeNumberGroup].Value);
+            var production = base.Parse(productionDefinition) as TelevisionShow;
+            var match = MovieTitleLineRegex.Match(productionDefinition);
+            
+            int seriesNumber = int.Parse(match.Groups[RegexSeriesNumberGroup].Value);
+            int episodeNumber = int.Parse(match.Groups[RegexEpisodeNumberGroup].Value);
 
-            return new TelevisionShow
-            {
-                Title = production.Groups[RegexTitleGroup].Value,
-                Year = year,
-                EpisodeTitle = production.Groups[RegexEpisodeTitleGroup].Value,
-                EpisodeNumber = episodeNumber
-            };
+            production.EpisodeTitle = match.Groups[RegexEpisodeTitleGroup].Value;
+            production.SeriesNumber = seriesNumber;
+            production.EpisodeNumber = episodeNumber;
+
+            return production;
         }
     }
 }

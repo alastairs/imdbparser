@@ -3,14 +3,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EB4A45D2-0A90-471A-912A-01AC9872CAAE}</ProjectGuid>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{120049B0-200D-490B-B687-C5147C3F5376}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IMDb.DataFiles.Parser.Test</RootNamespace>
-    <AssemblyName>IMDb.DataFiles.Parser.Test</AssemblyName>
+    <RootNamespace>IMDb.DataFiles.Parser.Factories</RootNamespace>
+    <AssemblyName>IMDb.DataFiles.Parser.Factories</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,42 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gallio" />
-    <Reference Include="MbUnit" />
-    <Reference Include="Moq">
-      <HintPath>lib\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Gallio35" />
-    <Reference Include="MbUnit35" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProductionTest.cs" />
+    <Compile Include="IProductionParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IMDb.DataFiles.Parser.Factories\IMDb.DataFiles.Parser.Factories.csproj">
-      <Project>{120049B0-200D-490B-B687-C5147C3F5376}</Project>
-      <Name>IMDb.DataFiles.Parser.Factories</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IMDb.DataFiles.Parser.Interfaces\IMDb.DataFiles.Parser.Interfaces.csproj">
       <Project>{387FC520-D5A6-4263-9FCD-0D8AE5A87193}</Project>
       <Name>IMDb.DataFiles.Parser.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IMDb.DataFiles.Parser\IMDb.DataFiles.Parser.csproj">
-      <Project>{E6D12A96-EC92-45DE-B5BB-0A34F8A71764}</Project>
-      <Name>IMDb.DataFiles.Parser</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

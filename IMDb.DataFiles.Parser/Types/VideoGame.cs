@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using IMDb.DataFiles.Parser.Factories;
+using IMDb.DataFiles.Parser.Interfaces;
 
 namespace IMDb.DataFiles.Parser.Types
 {
-    public class VideoGame : Production
+    public class VideoGame : Production, IProductionParser
     {
-        public static VideoGame Parse(Match production)
+        public IProduction Parse(string videoGameDefinition)
         {
-            int year = int.Parse(production.Groups[RegexYearGroup].Value);
-
-            return new VideoGame
-            {
-                Title = production.Groups[RegexTitleGroup].Value,
-                Year = year
-            };
+            return base.Parse(videoGameDefinition) as VideoGame;
         }
     }
 }

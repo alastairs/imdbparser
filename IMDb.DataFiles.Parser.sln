@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMDb.DataFiles.Parser", "IM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMDb.DataFiles.Parser.Test", "IMDb.DataFiles.Parser.Test\IMDb.DataFiles.Parser.Test.csproj", "{EB4A45D2-0A90-471A-912A-01AC9872CAAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMDb.DataFiles.Parser.Factories", "IMDb.DataFiles.Parser.Factories\IMDb.DataFiles.Parser.Factories.csproj", "{120049B0-200D-490B-B687-C5147C3F5376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMDb.DataFiles.Parser.Interfaces", "IMDb.DataFiles.Parser.Interfaces\IMDb.DataFiles.Parser.Interfaces.csproj", "{387FC520-D5A6-4263-9FCD-0D8AE5A87193}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,14 @@ Global
 		{EB4A45D2-0A90-471A-912A-01AC9872CAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB4A45D2-0A90-471A-912A-01AC9872CAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB4A45D2-0A90-471A-912A-01AC9872CAAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{120049B0-200D-490B-B687-C5147C3F5376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120049B0-200D-490B-B687-C5147C3F5376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120049B0-200D-490B-B687-C5147C3F5376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120049B0-200D-490B-B687-C5147C3F5376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{387FC520-D5A6-4263-9FCD-0D8AE5A87193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{387FC520-D5A6-4263-9FCD-0D8AE5A87193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{387FC520-D5A6-4263-9FCD-0D8AE5A87193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{387FC520-D5A6-4263-9FCD-0D8AE5A87193}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

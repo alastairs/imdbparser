@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E6D12A96-EC92-45DE-B5BB-0A34F8A71764}</ProjectGuid>
+    <ProjectGuid>{387FC520-D5A6-4263-9FCD-0D8AE5A87193}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IMDb.DataFiles.Parser</RootNamespace>
-    <AssemblyName>IMDb.DataFiles.Parser</AssemblyName>
+    <RootNamespace>IMDb.DataFiles.Parser.Interfaces</RootNamespace>
+    <AssemblyName>IMDb.DataFiles.Parser.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,25 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IImdbDataFileParser.cs" />
-    <Compile Include="Types\Movie.cs" />
-    <Compile Include="Types\Production.cs" />
-    <Compile Include="Types\SoundtrackRecord.cs" />
-    <Compile Include="SoundtrackFileParser.cs" />
+    <Compile Include="IProduction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Song.cs" />
-    <Compile Include="Types\TelevisionShow.cs" />
-    <Compile Include="Types\VideoGame.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IMDb.DataFiles.Parser.Factories\IMDb.DataFiles.Parser.Factories.csproj">
-      <Project>{120049B0-200D-490B-B687-C5147C3F5376}</Project>
-      <Name>IMDb.DataFiles.Parser.Factories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IMDb.DataFiles.Parser.Interfaces\IMDb.DataFiles.Parser.Interfaces.csproj">
-      <Project>{387FC520-D5A6-4263-9FCD-0D8AE5A87193}</Project>
-      <Name>IMDb.DataFiles.Parser.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

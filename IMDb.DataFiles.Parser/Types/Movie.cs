@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using IMDb.DataFiles.Parser.Factories;
+using IMDb.DataFiles.Parser.Interfaces;
 
 namespace IMDb.DataFiles.Parser.Types
 {
-    public class Movie : Production
+    public class Movie : Production, IProductionParser
     {
-        new public static Production Parse(Match production)
+        public IProduction Parse(string productionDefinition)
         {
-            int year = int.Parse(production.Groups[RegexYearGroup].Value);
-            
-            return new Movie { 
-                Title = production.Groups[RegexTitleGroup].Value,
-                Year = year
-            };
+            return base.Parse(productionDefinition) as Movie;            
         }
     }
 }
