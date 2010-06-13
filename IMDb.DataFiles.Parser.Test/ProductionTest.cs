@@ -4,7 +4,7 @@ using System.Text;
 using Gallio.Framework;
 using MbUnit.Framework;
 using MbUnit.Framework.ContractVerifiers;
-using IMDb.DataFiles.Parser.Types;
+using IMDb.DataFiles.Types;
 
 namespace IMDb.DataFiles.Parser.Test
 {
@@ -53,6 +53,20 @@ namespace IMDb.DataFiles.Parser.Test
             };
 
             var actual = Production.Parse(videoGameString);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void TestParseCreatesValidObjectWithNoQuotesAroundProductionTitle()
+        {
+            var productionDefinition = @"# Guitar Hero 5 (2009) (VG)";
+            var expected = new VideoGame
+            {
+                Title = "Guitar Hero 5",
+                Year = 2009
+            };
+
+            var actual = Production.Parse(productionDefinition);
             Assert.AreEqual(expected, actual);
         }
     }

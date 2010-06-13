@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IMDb.DataFiles.Parser.Interfaces")]
+[assembly: AssemblyTitle("IMDb.DataFiles.Types")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("IMDb.DataFiles.Parser.Interfaces")]
+[assembly: AssemblyProduct("IMDb.DataFiles.Types")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("49385d8c-8ee4-43e7-9df3-153cb6a9b2c1")]
+[assembly: Guid("58aead30-ea0b-4730-b008-ddf2546db511")]
 
 // Version information for an assembly consists of the following four values:
 //

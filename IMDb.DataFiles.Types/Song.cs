@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace IMDb.DataFiles.Parser.Types
+namespace IMDb.DataFiles.Types
 {
     public class Song
     {

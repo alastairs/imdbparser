@@ -41,23 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IImdbDataFileParser.cs" />
-    <Compile Include="Types\Movie.cs" />
-    <Compile Include="Types\Production.cs" />
-    <Compile Include="Types\SoundtrackRecord.cs" />
     <Compile Include="SoundtrackFileParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Song.cs" />
-    <Compile Include="Types\TelevisionShow.cs" />
-    <Compile Include="Types\VideoGame.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IMDb.DataFiles.Parser.Factories\IMDb.DataFiles.Parser.Factories.csproj">
-      <Project>{120049B0-200D-490B-B687-C5147C3F5376}</Project>
-      <Name>IMDb.DataFiles.Parser.Factories</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IMDb.DataFiles.Parser.Interfaces\IMDb.DataFiles.Parser.Interfaces.csproj">
       <Project>{387FC520-D5A6-4263-9FCD-0D8AE5A87193}</Project>
       <Name>IMDb.DataFiles.Parser.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IMDb.DataFiles.Types\IMDb.DataFiles.Types.csproj">
+      <Project>{CD9CD24F-CC2C-4AEE-9E6F-8ACA67136E1C}</Project>
+      <Name>IMDb.DataFiles.Types</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

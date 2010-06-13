@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using IMDb.DataFiles.Parser.Interfaces;
-using IMDb.DataFiles.Parser.Factories;
 
-namespace IMDb.DataFiles.Parser.Types
+namespace IMDb.DataFiles.Types
 {
     public class TelevisionShow : Production
     {

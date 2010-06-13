@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
-using IMDb.DataFiles.Parser.Types;
+using IMDb.DataFiles.Types;
 using IMDb.DataFiles.Parser.Factories;
 using IMDb.DataFiles.Parser.Interfaces;
 

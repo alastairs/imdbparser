@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using IMDb.DataFiles.Parser.Interfaces;
 
-namespace IMDb.DataFiles.Parser.Types
+namespace IMDb.DataFiles.Types
 {
     public class SoundtrackRecord
     {
