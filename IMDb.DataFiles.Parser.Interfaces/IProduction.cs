@@ -9,5 +9,7 @@ namespace IMDb.DataFiles.Parser.Interfaces
     {
         string Title { get; set; }
         int Year { get; set; }
+
+        void Load(string productionDefinition);
     }
 }

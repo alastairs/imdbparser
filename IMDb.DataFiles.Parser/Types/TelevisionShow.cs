@@ -8,11 +8,11 @@ using IMDb.DataFiles.Parser.Factories;
 
 namespace IMDb.DataFiles.Parser.Types
 {
-    public class TelevisionShow : Production, IProductionParser
+    public class TelevisionShow : Production
     {
         private const string RegexSeriesNumberGroup = "series";
         private const string RegexEpisodeNumberGroup = "episode";
-        
+
         public string EpisodeTitle
         {
             get;
@@ -31,19 +31,37 @@ namespace IMDb.DataFiles.Parser.Types
             set;
         }
 
-        public IProduction Parse(string productionDefinition)
+        public override void Load(string productionDefinition)
         {
-            var production = base.Parse(productionDefinition) as TelevisionShow;
+            base.Load(productionDefinition);
+
             var match = MovieTitleLineRegex.Match(productionDefinition);
-            
+
             int seriesNumber = int.Parse(match.Groups[RegexSeriesNumberGroup].Value);
             int episodeNumber = int.Parse(match.Groups[RegexEpisodeNumberGroup].Value);
 
-            production.EpisodeTitle = match.Groups[RegexEpisodeTitleGroup].Value;
-            production.SeriesNumber = seriesNumber;
-            production.EpisodeNumber = episodeNumber;
+            this.EpisodeTitle = match.Groups[RegexEpisodeTitleGroup].Value;
+            this.SeriesNumber = seriesNumber;
+            this.EpisodeNumber = episodeNumber;
+        }
 
-            return production;
+        public override bool Equals(object obj)
+        {
+            TelevisionShow other = obj as TelevisionShow;
+            if (other != null)
+            {
+                return base.Equals(other) && 
+                       this.SeriesNumber == other.SeriesNumber && 
+                       this.EpisodeNumber == other.EpisodeNumber && 
+                       this.EpisodeTitle == other.EpisodeTitle;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

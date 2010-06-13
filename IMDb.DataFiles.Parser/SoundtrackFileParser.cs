@@ -14,10 +14,9 @@ namespace IMDb.DataFiles.Parser
     {
         private static readonly Regex SongTitleLineRegex = new Regex(@"^- "".*""( \(uncredited\))?$");
 
-        public IEnumerable<SoundtrackRecord> Parse(string soundtracksListFile) {
-            FileStream soundtracksList = File.OpenRead(soundtracksListFile);
-
-            var file = new StreamReader(soundtracksList);
+        public IEnumerable<SoundtrackRecord> Parse(Stream dataFileStream) 
+        {
+            var file = new StreamReader(dataFileStream);
             var line = file.ReadLine();
             while (line != null)
             {
@@ -28,7 +27,7 @@ namespace IMDb.DataFiles.Parser
                 {
                     if (line.StartsWith("#"))
                     {
-                        production = Production.ParseProduction(line);
+                        production = Production.Parse(line);
                     }
 
                     if (line.StartsWith("-"))

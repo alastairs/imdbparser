@@ -21,7 +21,7 @@ namespace IMDb.DataFiles.Parser.Test
                 Year = 1979
             };
 
-            var actual = Production.ParseProduction(tvShowString);
+            var actual = Production.Parse(tvShowString);
             Assert.AreEqual(expected, actual);
         }
 
@@ -38,7 +38,7 @@ namespace IMDb.DataFiles.Parser.Test
                 EpisodeNumber = 6
             };
 
-            var actual = Production.ParseProduction(movieString);
+            var actual = Production.Parse(movieString);
             Assert.AreEqual(expected, actual);
         }
 
@@ -52,7 +52,7 @@ namespace IMDb.DataFiles.Parser.Test
                 Year = 2006
             };
 
-            var actual = Production.ParseProduction(videoGameString);
+            var actual = Production.Parse(videoGameString);
             Assert.AreEqual(expected, actual);
         }
     }

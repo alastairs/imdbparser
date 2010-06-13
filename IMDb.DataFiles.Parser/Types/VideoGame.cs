@@ -8,11 +8,11 @@ using IMDb.DataFiles.Parser.Interfaces;
 
 namespace IMDb.DataFiles.Parser.Types
 {
-    public class VideoGame : Production, IProductionParser
+    public class VideoGame : Production
     {
-        public IProduction Parse(string videoGameDefinition)
+        public override void Load(string videoGameDefinition)
         {
-            return base.Parse(videoGameDefinition) as VideoGame;
+            base.Load(videoGameDefinition);
         }
     }
 }
