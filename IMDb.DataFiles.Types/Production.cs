@@ -18,8 +18,8 @@ namespace IMDb.DataFiles.Types
         protected const string RegexVideoGameGroup = "videoGame";
 
         protected static readonly Regex MovieTitleLineRegex = new Regex(
-            @"^\# ""?(?<title>[^""]*)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>.*) \(\#(?<series>\d+)\.(?<episode>\d+)\)\})| \((?<videoGame>VG)\))?$",
-            RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Singleline);
+            @"^\# ""?(?<title>.*?)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>.*) \(\#(?<series>\d+)\.(?<episode>\d+)\)\})| \((?<videoGame>VG)\))?$",
+            RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Multiline);
         
         public static IProduction Parse(string productionDefinition)
         {

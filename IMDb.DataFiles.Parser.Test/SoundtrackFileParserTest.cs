@@ -164,12 +164,17 @@ SOUNDTRACKS LIST
 
             #endregion
 
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(data);
+            using (var stream = new MemoryStream())
+            using (var writer = new StreamWriter(stream))
+            {
+                writer.Write(data);
 
-            IEnumerable<SoundtrackRecord> records = new SoundtrackFileParser().Parse(stream);
-            Assert.AreElementsEqual(expectedSequence, records);
+                // Reset the stream's position to the beginning of the stream so the parser can read data from it.
+                stream.Seek(0, SeekOrigin.Begin);
+
+                IEnumerable<SoundtrackRecord> records = new SoundtrackFileParser().Parse(stream);
+                Assert.AreElementsEqual(expectedSequence, records);
+            }
         }
     }
 }
