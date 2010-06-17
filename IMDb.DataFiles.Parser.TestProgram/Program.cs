@@ -27,19 +27,24 @@ namespace IMDb.DataFiles.Parser.TestProgram
             var timer = Stopwatch.StartNew();
             Console.WriteLine("Counting productions in the file...");
             string line = reader.ReadLine();
-            int count = 0;
+            int productionCount = 0, songCount = 0;
             while (line != null)
             {
                 if (line.StartsWith("#"))
                 {
-                    count++;
+                    productionCount++;
+                }
+
+                if (line.StartsWith("-"))
+                {
+                    songCount++;
                 }
 
                 line = reader.ReadLine();
             }
             timer.Stop();
             Console.WriteLine("...done");
-            Console.WriteLine("Counted {0} productions in {1} hours {2} mins {3} secs.", count, timer.Elapsed.Hours, timer.Elapsed.Minutes, timer.Elapsed.Seconds);
+            Console.WriteLine("Counted {0} productions and {1} songs in {2} hours {3} mins {4} secs.", productionCount, songCount, timer.Elapsed.Hours, timer.Elapsed.Minutes, timer.Elapsed.Seconds);
 
             soundtracksStream.Seek(0, SeekOrigin.Begin);
 
@@ -51,7 +56,7 @@ namespace IMDb.DataFiles.Parser.TestProgram
             Console.WriteLine("...done");
 
             Console.WriteLine("Parsed {0} records of {1} total in {2} hours {3} mins {4} secs.", 
-                records.Count(), count, timer.Elapsed.Hours, timer.Elapsed.Minutes, timer.Elapsed.Seconds);
+                records.Count(), productionCount, timer.Elapsed.Hours, timer.Elapsed.Minutes, timer.Elapsed.Seconds);
 
             Console.ReadLine();
         }
