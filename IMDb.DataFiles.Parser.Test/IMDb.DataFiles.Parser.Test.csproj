@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="ProductionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SongTest.cs" />
     <Compile Include="SoundtrackFileParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
