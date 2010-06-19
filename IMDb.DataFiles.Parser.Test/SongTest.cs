@@ -56,5 +56,29 @@ namespace IMDb.DataFiles.Parser.Test
 
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void TestParseCreatesValidObjectWithMultipleCrossReferencedWriters()
+        {
+            #region data = ...
+            var data = @"- ""Boom""
+  Written by 'E. Ray Goetz' (qv) (uncredited) and 'Charles Trenet' (qv) (uncredited)
+  Performed by 'Carmen Silvera' (qv)
+";
+            #endregion
+
+            IList<string> songDefinition = new List<string>(data.Split(new string[] { "\r\n" }, StringSplitOptions.None));
+            var expected = new Song
+            {
+                Title = "Boom",
+                Composer = "E. Ray Goetz (uncredited) and Charles Trenet (uncredited)",
+                Lyricist = "E. Ray Goetz (uncredited) and Charles Trenet (uncredited)",
+                Performer = "Carmen Silvera"
+            };
+
+            Song actual = Song.Parse(songDefinition);
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
