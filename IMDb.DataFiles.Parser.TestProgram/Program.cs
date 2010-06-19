@@ -24,7 +24,6 @@ namespace IMDb.DataFiles.Parser.TestProgram
             var reader = new StreamReader(soundtracksStream);
             Console.WriteLine("...done");
 
-            var timer = Stopwatch.StartNew();
             Console.WriteLine("Counting productions in the file...");
             string line = reader.ReadLine();
             int productionCount = 0, songCount = 0;
@@ -42,21 +41,20 @@ namespace IMDb.DataFiles.Parser.TestProgram
 
                 line = reader.ReadLine();
             }
-            timer.Stop();
             Console.WriteLine("...done");
-            Console.WriteLine("Counted {0} productions and {1} songs in {2} hours {3} mins {4} secs.", productionCount, songCount, timer.Elapsed.Hours, timer.Elapsed.Minutes, timer.Elapsed.Seconds);
+            Console.WriteLine("Counted {0} productions and {1} songs.", productionCount, songCount);
 
             soundtracksStream.Seek(0, SeekOrigin.Begin);
 
             Console.WriteLine("Parsing productions in the file...");
-            timer = Stopwatch.StartNew();
             var parser = new SoundtrackFileParser();
             IEnumerable<SoundtrackRecord> records = parser.Parse(soundtracksStream);
-            timer.Stop();
             Console.WriteLine("...done");
 
-            Console.WriteLine("Parsed {0} records of {1} total in {2} hours {3} mins {4} secs.", 
-                records.Count(), productionCount, timer.Elapsed.Hours, timer.Elapsed.Minutes, timer.Elapsed.Seconds);
+            var parsedSongCount = (from r in records
+                                  select r.Songs.Count).Sum();
+            Console.WriteLine("Parsed {0} productions of {1} total and {2} songs of {3} total.", 
+                records.Count(), productionCount, parsedSongCount, songCount);
 
             Console.ReadLine();
         }
