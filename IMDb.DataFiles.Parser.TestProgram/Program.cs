@@ -29,7 +29,7 @@ namespace IMDb.DataFiles.Parser.TestProgram
             logFile.File = Path.Combine(Path.GetTempPath(), @"parser.log");
             logFile.AppendToFile = false;
             logFile.ImmediateFlush = true;
-            
+            logFile.ActivateOptions();
             BasicConfigurator.Configure(logFile);
             
             Console.WriteLine("Opening file for read...");
@@ -64,19 +64,7 @@ namespace IMDb.DataFiles.Parser.TestProgram
             Console.WriteLine("Parsing productions in the file...");
             var parser = new SoundtrackFileParser(LogManager.GetLogger(typeof(SoundtrackFileParser)));
 
-            IList<string> failedParses = new List<string>();
-
-            IEnumerable<SoundtrackRecord> records = null;
-
-            try
-            {
-                records = parser.Parse(soundtracksStream);
-            }
-            catch (ParseException e)
-            {
-                failedParses.Add(e.ParseFailure);
-            }
-
+            IEnumerable<SoundtrackRecord> records = parser.Parse(soundtracksStream);
             Console.WriteLine("...done");
 
             var parsedSongsCount = (from r in records
