@@ -9,9 +9,6 @@ namespace IMDb.DataFiles.Types
 {
     public class TelevisionShow : Production
     {
-        private const string RegexSeriesNumberGroup = "series";
-        private const string RegexEpisodeNumberGroup = "episode";
-
         public string EpisodeTitle
         {
             get;
@@ -28,20 +25,6 @@ namespace IMDb.DataFiles.Types
         {
             get;
             set;
-        }
-
-        public override void Load(string productionDefinition)
-        {
-            base.Load(productionDefinition);
-
-            var match = MovieTitleLineRegex.Match(productionDefinition);
-
-            int seriesNumber = int.Parse(match.Groups[RegexSeriesNumberGroup].Value);
-            int episodeNumber = int.Parse(match.Groups[RegexEpisodeNumberGroup].Value);
-
-            this.EpisodeTitle = match.Groups[RegexEpisodeTitleGroup].Value;
-            this.SeriesNumber = seriesNumber;
-            this.EpisodeNumber = episodeNumber;
         }
 
         public override bool Equals(object obj)

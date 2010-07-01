@@ -9,9 +9,6 @@ namespace IMDb.DataFiles.Types
 {
     public class Movie : Production
     {
-        public override void Load(string productionDefinition)
-        {
-            base.Load(productionDefinition);
-        }
+        
     }
 }

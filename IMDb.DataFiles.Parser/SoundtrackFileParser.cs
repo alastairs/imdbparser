@@ -12,11 +12,16 @@ namespace IMDb.DataFiles.Parser
 {
     public class SoundtrackFileParser : IImdbDataFileParser<SoundtrackRecord>
     {
-        private ILog Logger { get; set; }
+        private readonly ProductionParser productionParser;
+        private readonly SongParser songParser;
 
+        private ILog Logger { get; set; }
+        
         public SoundtrackFileParser(ILog logger)
         {
             Logger = logger;
+            productionParser = new ProductionParser(Logger);
+            songParser = new SongParser(Logger);
         }
 
         public IEnumerable<SoundtrackRecord> Parse(Stream dataFileStream)
@@ -27,7 +32,7 @@ namespace IMDb.DataFiles.Parser
             {
                 if (line.StartsWith("#"))
                 {
-                    //Logger.DebugFormat("Found production definition: {0}", line);
+                    Logger.DebugFormat("Found production definition: {0}", line);
                     yield return ReadProductionSoundtrack(line, file);
                 }
 
@@ -37,7 +42,7 @@ namespace IMDb.DataFiles.Parser
 
         private SoundtrackRecord ReadProductionSoundtrack(string productionDefinition, StreamReader file)
         {
-            IProduction production = Production.Parse(productionDefinition);
+            IProduction production = productionParser.Parse(productionDefinition);
 
             string line = file.ReadLine();
             IList<string> artistCredits = new List<string>();
@@ -46,11 +51,11 @@ namespace IMDb.DataFiles.Parser
             {
                 if (line.StartsWith("-"))
                 {
-                    //Logger.DebugFormat("Found song title definition: {0}", line);
+                    Logger.DebugFormat("Found song title definition: {0}", line);
 
                     if (artistCredits.Count > 0)
                     {
-                        songs.Add(Song.Parse(artistCredits));
+                        songs.Add(songParser.Parse(artistCredits));
                         
                         // There are still artist credits listed for the previous song,
                         // so clear the list of artist credits ready for this new song.
@@ -59,14 +64,14 @@ namespace IMDb.DataFiles.Parser
                 }
                 else
                 {
-                    //Logger.DebugFormat("Found song artist definition: {0}", line);
+                    Logger.DebugFormat("Found song artist definition: {0}", line);
                 }
                     
                 artistCredits.Add(line);
                 line = file.ReadLine();
             }
 
-            songs.Add(Song.Parse(artistCredits));
+            songs.Add(songParser.Parse(artistCredits));
 
             return new SoundtrackRecord
             {

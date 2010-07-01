@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="IImdbDataFileParser.cs" />
     <Compile Include="ParseException.cs" />
+    <Compile Include="ProductionParser.cs" />
+    <Compile Include="SongParser.cs" />
     <Compile Include="SoundtrackFileParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

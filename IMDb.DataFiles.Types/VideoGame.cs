@@ -9,9 +9,6 @@ namespace IMDb.DataFiles.Types
 {
     public class VideoGame : Production
     {
-        public override void Load(string videoGameDefinition)
-        {
-            base.Load(videoGameDefinition);
-        }
+        
     }
 }
