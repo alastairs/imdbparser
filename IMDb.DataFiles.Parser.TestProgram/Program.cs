@@ -57,7 +57,7 @@ namespace IMDb.DataFiles.Parser.TestProgram
                 line = reader.ReadLine();
             }
             Console.WriteLine("...done");
-            Console.WriteLine("Counted {0} productions and {1} songs.", productionCount, songCount);
+            Console.WriteLine("Counted {0} productions and {1} songs.", rawProductions.Count, rawSongs.Count);
 
             soundtracksStream.Seek(0, SeekOrigin.Begin);
 

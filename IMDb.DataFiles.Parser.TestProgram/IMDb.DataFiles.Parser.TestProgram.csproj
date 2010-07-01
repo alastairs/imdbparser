@@ -11,7 +11,8 @@
     <RootNamespace>IMDb.DataFiles.Parser.TestProgram</RootNamespace>
     <AssemblyName>IMDb.DataFiles.Parser.TestProgram</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>

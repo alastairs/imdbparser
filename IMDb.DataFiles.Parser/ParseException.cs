@@ -5,7 +5,12 @@ using System.Text;
 
 namespace IMDb.DataFiles.Types
 {
-    class ParseException : Exception
+    public class ParseException : Exception
     {
+        public string ParseFailure { get; private set; }
+
+        public ParseException(string parseFailure) {
+            ParseFailure = parseFailure;
+        }
     }
 }

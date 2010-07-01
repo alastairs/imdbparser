@@ -109,8 +109,6 @@ namespace IMDb.DataFiles.Types
                     song.Composer = songDetails.Trim();
                     continue;
                 }
-
-                throw new ParseException(songDetails);
             }
 
             return song;
