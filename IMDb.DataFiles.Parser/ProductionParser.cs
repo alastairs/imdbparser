@@ -38,20 +38,24 @@ namespace IMDb.DataFiles.Parser
                 var match = ProductionTitleLineRegex.Match(productionDefinition);
                 if (match.Groups[RegexEpisodeTitleGroup].Length > 0)
                 {
+                    Logger.DebugFormat("Creating a new TelevisionShow for {0}", productionDefinition);
                     production = ParseTelevisionShow(match);
                 }
                 else if (match.Groups[RegexVideoGameGroup].Length > 0)
                 {
+                    Logger.DebugFormat("Creating a new VideoGame for {0}", productionDefinition);
                     production = ParseVideoGame(match);
                 }
                 else
                 {
+                    Logger.DebugFormat("Creating a new Movie for {0}", productionDefinition);
                     production = ParseMovie(match);
                 }
 
                 return production;
             }
 
+            Logger.ErrorFormat("Failed to parse the production definition {0}", productionDefinition);
             return null;
         }
 
@@ -78,24 +82,73 @@ namespace IMDb.DataFiles.Parser
             tvShow.Title = ParseTitle(regexMatch);
             tvShow.Year = ParseYear(regexMatch);
 
-            int seriesNumber = int.Parse(regexMatch.Groups[RegexSeriesNumberGroup].Value);
-            int episodeNumber = int.Parse(regexMatch.Groups[RegexEpisodeNumberGroup].Value);
+            var seriesNumber = regexMatch.Groups[RegexSeriesNumberGroup].Value;
+            try
+            {
+                Logger.DebugFormat("Successfully parsed series number {0}", seriesNumber);
+                tvShow.SeriesNumber = int.Parse(seriesNumber);
+            }
+            catch (FormatException)
+            {
+                Logger.ErrorFormat("Failed to parse series number {0}", seriesNumber);
+                tvShow.SeriesNumber = 0;
+            }
 
-            tvShow.EpisodeTitle = regexMatch.Groups[RegexEpisodeTitleGroup].Value;
-            tvShow.SeriesNumber = seriesNumber;
-            tvShow.EpisodeNumber = episodeNumber;
+            var episodeNumber = regexMatch.Groups[RegexEpisodeNumberGroup].Value;
+            try
+            {
+                Logger.DebugFormat("Successfully parsed episode number {0}", episodeNumber);
+                tvShow.EpisodeNumber = int.Parse(episodeNumber);
+            }
+            catch (FormatException)
+            {
+                Logger.ErrorFormat("Failed to parse episode number {0}", episodeNumber);
+                tvShow.EpisodeNumber = 0;
+            }
+
+            var episodeTitle = regexMatch.Groups[RegexEpisodeTitleGroup].Value;
+            if (string.IsNullOrEmpty(episodeTitle))
+            {
+                Logger.ErrorFormat("Failed to parse episode title {0}", regexMatch);
+                tvShow.EpisodeTitle = string.Empty;
+            }
+            else
+            {
+                Logger.DebugFormat("Successfully parsed episode title {0}", episodeTitle);
+                tvShow.EpisodeTitle = episodeTitle;
+            }
 
             return tvShow;
         }
 
         public string ParseTitle(Match regexMatch)
         {
-            return regexMatch.Groups[RegexTitleGroup].Value;
+            var title = regexMatch.Groups[RegexTitleGroup].Value;
+
+            if (string.IsNullOrEmpty(title))
+            {
+                Logger.ErrorFormat("Failed to parse title {0}", regexMatch);
+                return string.Empty;
+            }
+
+            Logger.DebugFormat("Successfully parsed title {0}", title);
+            return title;
         }
 
         public int ParseYear(Match regexMatch)
         {
-            return int.Parse(regexMatch.Groups[RegexYearGroup].Value);
+            var year = regexMatch.Groups[RegexYearGroup].Value;
+
+            try
+            {
+                Logger.DebugFormat("Successfully parsed year {0}", year);
+                return int.Parse(year);
+            }
+            catch (FormatException)
+            {
+                Logger.ErrorFormat("Failed to parse year {0}", year);
+                return 0;
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ using log4net.Config;
 using log4net.Appender;
 using log4net.Layout;
 using log4net;
+using log4net.Core;
 
 namespace IMDb.DataFiles.Parser.TestProgram
 {
@@ -25,6 +26,7 @@ namespace IMDb.DataFiles.Parser.TestProgram
 
             // Set up a logger
             var logFile = new FileAppender();
+            logFile.Threshold = Level.Error;
             logFile.Layout = new PatternLayout(@"%-6timestamp [%thread] %-5level %30.30logger %ndc: %message%newline");
             logFile.File = Path.Combine(Path.GetTempPath(), @"parser.log");
             logFile.AppendToFile = false;
