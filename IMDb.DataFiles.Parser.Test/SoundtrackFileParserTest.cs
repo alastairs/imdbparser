@@ -5,6 +5,8 @@ using System.Linq;
 using MbUnit.Framework;
 using System.IO;
 using IMDb.DataFiles.Types;
+using Moq;
+using log4net;
 
 namespace IMDb.DataFiles.Parser.Test
 {
@@ -164,6 +166,8 @@ SOUNDTRACKS LIST
 
             #endregion
 
+            var log = new Mock<ILog>();
+
             using (var stream = new MemoryStream())
             using (var writer = new StreamWriter(stream))
             {
@@ -172,7 +176,7 @@ SOUNDTRACKS LIST
                 // Reset the stream's position to the beginning of the stream so the parser can read data from it.
                 stream.Seek(0, SeekOrigin.Begin);
 
-                IEnumerable<SoundtrackRecord> records = new SoundtrackFileParser().Parse(stream);
+                IEnumerable<SoundtrackRecord> records = new SoundtrackFileParser(log.Object).Parse(stream);
                 Assert.AreElementsEqual(expectedSequence, records);
             }
         }
