@@ -39,17 +39,19 @@ namespace IMDb.DataFiles.Parser.TestProgram
 
             Console.WriteLine("Counting productions in the file...");
             string line = reader.ReadLine();
-            int productionCount = 0, songCount = 0;
+            IList<string> rawProductions = new List<string>();
+            IList<string> rawSongs = new List<string>();
             while (line != null)
             {
                 if (line.StartsWith("#"))
                 {
-                    productionCount++;
+                    rawProductions.Add(line);
                 }
 
                 if (line.StartsWith("-"))
                 {
-                    songCount++;
+                    line = line.Replace(" (uncredited)", string.Empty).TrimStart('-').Trim();
+                    rawSongs.Add(line);
                 }
 
                 line = reader.ReadLine();
@@ -61,13 +63,26 @@ namespace IMDb.DataFiles.Parser.TestProgram
 
             Console.WriteLine("Parsing productions in the file...");
             var parser = new SoundtrackFileParser(LogManager.GetLogger(typeof(SoundtrackFileParser)));
-            IEnumerable<SoundtrackRecord> records = parser.Parse(soundtracksStream);
+
+            IList<string> failedParses = new List<string>();
+
+            IEnumerable<SoundtrackRecord> records = null;
+
+            try
+            {
+                records = parser.Parse(soundtracksStream);
+            }
+            catch (ParseException e)
+            {
+                failedParses.Add(e.ParseFailure);
+            }
+
             Console.WriteLine("...done");
 
-            var parsedSongCount = (from r in records
-                                  select r.Songs.Count).Sum();
+            var parsedSongsCount = (from r in records
+                                   select r.Songs.Count).Sum();
             Console.WriteLine("Parsed {0} productions of {1} total and {2} songs of {3} total.", 
-                records.Count(), productionCount, parsedSongCount, songCount);
+                records.Count(), rawProductions.Count, parsedSongsCount, rawSongs.Count);
 
             Console.ReadLine();
         }
