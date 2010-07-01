@@ -72,5 +72,10 @@ namespace IMDb.DataFiles.Types
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} ({1})", this.Title, this.Year);
+        }
     }
 }

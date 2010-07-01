@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using IMDb.DataFiles.Parser;
 
 namespace IMDb.DataFiles.Types
 {
@@ -25,9 +26,9 @@ namespace IMDb.DataFiles.Types
                                                                      RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
         private static readonly Regex ComposerLineRegex = new Regex(string.Format(NameBasedRegex, "Music"),
                                                                      RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
-        private static readonly Regex WriterLineRegex = new Regex(string.Format(NameBasedRegex, "Written"),
+        private static readonly Regex WriterLineRegex = new Regex(string.Format(NameBasedRegex, @"(Written)?"),
                                                                      RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
-        private static readonly Regex PerformerLineRegex = new Regex(string.Format(NameBasedRegex, "Performed"),
+        private static readonly Regex PerformerLineRegex = new Regex(string.Format(NameBasedRegex, @"(?:Sung|Performed)"),
                                                                      RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
         // This one's much more complicated and needs thinking out...
@@ -108,6 +109,8 @@ namespace IMDb.DataFiles.Types
                     song.Composer = songDetails.Trim();
                     continue;
                 }
+
+                throw new ParseException(songDetails);
             }
 
             return song;
