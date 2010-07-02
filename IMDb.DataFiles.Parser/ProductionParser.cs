@@ -14,13 +14,14 @@ namespace IMDb.DataFiles.Parser
         private const string RegexTitleGroup = "title";
         private const string RegexYearGroup = "year";
         private const string RegexEpisodeTitleGroup = "episodeTitle";
+        private const string RegexTvMovieGroup = "tvMovie";
         private const string RegexVideoGameGroup = "videoGame";
 
         private const string RegexSeriesNumberGroup = "series";
         private const string RegexEpisodeNumberGroup = "episode";
 
         private static readonly Regex ProductionTitleLineRegex = new Regex(
-            @"^\# ""?(?<title>.*?)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>[^\(].*[^\)])?\s*(?:\(\#(?<series>\d+)\.(?<episode>\d+)\))?\})| \((?<videoGame>VG)\))?$",
+            @"^\# ""?(?<title>.*?)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>[^\(].*[^\)])?\s*(?:\(\#(?<series>\d+)\.(?<episode>\d+)\))?\})?| \((?<videoGame>VG)\)| \((?<tvMovie>TV)\))?$",
             RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Multiline);
 
         protected ILog Logger { get; private set; }
@@ -36,12 +37,12 @@ namespace IMDb.DataFiles.Parser
             {
                 IProduction production;
                 var match = ProductionTitleLineRegex.Match(productionDefinition);
-                if (match.Groups[RegexEpisodeTitleGroup].Length > 0 || match.Groups[RegexSeriesNumberGroup].Length > 0)
+                if (IsTelevisionShow(match))
                 {
                     Logger.DebugFormat("Parsing TelevisionShow {0}", productionDefinition);
                     production = ParseTelevisionShow(match);
                 }
-                else if (match.Groups[RegexVideoGameGroup].Length > 0)
+                else if (IsVideoGame(match))
                 {
                     Logger.DebugFormat("Parsing VideoGame {0}", productionDefinition);
                     production = ParseVideoGame(match);
@@ -57,6 +58,20 @@ namespace IMDb.DataFiles.Parser
 
             Logger.ErrorFormat("Failed to parse the production definition {0}", productionDefinition);
             return null;
+        }
+
+        private static bool IsVideoGame(Match match)
+        {
+            return match.Groups[RegexVideoGameGroup].Length > 0;
+        }
+
+        private static bool IsTelevisionShow(Match match)
+        {
+            bool hasEpisodeTitle = match.Groups[RegexEpisodeTitleGroup].Length > 0;
+            bool hasSeriesNumber = match.Groups[RegexSeriesNumberGroup].Length > 0;
+            bool isTvMovie = match.Groups[RegexTvMovieGroup].Length > 0;
+
+            return hasEpisodeTitle || hasSeriesNumber || isTvMovie;
         }
 
         private IProduction ParseMovie(Match regexMatch)

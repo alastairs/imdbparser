@@ -111,5 +111,23 @@ namespace IMDb.DataFiles.Parser.Test
             Assert.AreEqual(expected, actual);
         }
 
+        [Test]
+        public void TestParseCreatesValidTelevisionShowObjectWithNoEpisodeInformation()
+        {
+            var productionDefinition = @"# Zenon: Z3 (2004) (TV)";
+
+            var expected = new TelevisionShow()
+            {
+                Title = "Zenon: Z3",
+                Year = 2004,
+                SeriesNumber = 0,
+                EpisodeNumber = 0,
+                EpisodeTitle = string.Empty
+            };
+
+            var logger = new Mock<ILog>();
+            var actual = new ProductionParser(logger.Object).Parse(productionDefinition);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
