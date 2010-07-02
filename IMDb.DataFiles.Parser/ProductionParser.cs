@@ -98,7 +98,7 @@ namespace IMDb.DataFiles.Parser
                 return episodeTitle.Trim();
             }
 
-            Logger.ErrorFormat("No episode title data to parse in production definition {0}", regexMatch);
+            Logger.DebugFormat("No episode title data to parse in production definition {0}", regexMatch);
             return string.Empty;
         }
 
