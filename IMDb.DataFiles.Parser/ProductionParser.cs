@@ -15,12 +15,12 @@ namespace IMDb.DataFiles.Parser
         private const string RegexYearGroup = "year";
         private const string RegexEpisodeTitleGroup = "episodeTitle";
         private const string RegexVideoGameGroup = "videoGame";
-        
+
         private const string RegexSeriesNumberGroup = "series";
         private const string RegexEpisodeNumberGroup = "episode";
 
         private static readonly Regex ProductionTitleLineRegex = new Regex(
-            @"^\# ""?(?<title>.*?)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>.*) \(\#(?<series>\d+)\.(?<episode>\d+)\)\})| \((?<videoGame>VG)\))?$",
+            @"^\# ""?(?<title>.*?)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>[^\(].*[^\)])?\s*(?:\(\#(?<series>\d+)\.(?<episode>\d+)\))?\})| \((?<videoGame>VG)\))?$",
             RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Multiline);
 
         protected ILog Logger { get; private set; }
@@ -29,26 +29,26 @@ namespace IMDb.DataFiles.Parser
         {
             Logger = logger;
         }
-        
+
         public IProduction Parse(string productionDefinition)
         {
             if (ProductionTitleLineRegex.IsMatch(productionDefinition))
             {
                 IProduction production;
                 var match = ProductionTitleLineRegex.Match(productionDefinition);
-                if (match.Groups[RegexEpisodeTitleGroup].Length > 0)
+                if (match.Groups[RegexEpisodeTitleGroup].Length > 0 || match.Groups[RegexSeriesNumberGroup].Length > 0)
                 {
-                    Logger.DebugFormat("Creating a new TelevisionShow for {0}", productionDefinition);
+                    Logger.DebugFormat("Parsing TelevisionShow {0}", productionDefinition);
                     production = ParseTelevisionShow(match);
                 }
                 else if (match.Groups[RegexVideoGameGroup].Length > 0)
                 {
-                    Logger.DebugFormat("Creating a new VideoGame for {0}", productionDefinition);
+                    Logger.DebugFormat("Parsing VideoGame {0}", productionDefinition);
                     production = ParseVideoGame(match);
                 }
                 else
                 {
-                    Logger.DebugFormat("Creating a new Movie for {0}", productionDefinition);
+                    Logger.DebugFormat("Parsing Movie {0}", productionDefinition);
                     production = ParseMovie(match);
                 }
 
@@ -82,73 +82,105 @@ namespace IMDb.DataFiles.Parser
             tvShow.Title = ParseTitle(regexMatch);
             tvShow.Year = ParseYear(regexMatch);
 
-            var seriesNumber = regexMatch.Groups[RegexSeriesNumberGroup].Value;
-            try
-            {
-                Logger.DebugFormat("Successfully parsed series number {0}", seriesNumber);
-                tvShow.SeriesNumber = int.Parse(seriesNumber);
-            }
-            catch (FormatException)
-            {
-                Logger.ErrorFormat("Failed to parse series number {0}", seriesNumber);
-                tvShow.SeriesNumber = 0;
-            }
-
-            var episodeNumber = regexMatch.Groups[RegexEpisodeNumberGroup].Value;
-            try
-            {
-                Logger.DebugFormat("Successfully parsed episode number {0}", episodeNumber);
-                tvShow.EpisodeNumber = int.Parse(episodeNumber);
-            }
-            catch (FormatException)
-            {
-                Logger.ErrorFormat("Failed to parse episode number {0}", episodeNumber);
-                tvShow.EpisodeNumber = 0;
-            }
-
-            var episodeTitle = regexMatch.Groups[RegexEpisodeTitleGroup].Value;
-            if (string.IsNullOrEmpty(episodeTitle))
-            {
-                Logger.ErrorFormat("Failed to parse episode title {0}", regexMatch);
-                tvShow.EpisodeTitle = string.Empty;
-            }
-            else
-            {
-                Logger.DebugFormat("Successfully parsed episode title {0}", episodeTitle);
-                tvShow.EpisodeTitle = episodeTitle;
-            }
+            tvShow.SeriesNumber = ParseSeriesNumber(regexMatch);
+            tvShow.EpisodeNumber = ParseEpisodeNumber(regexMatch);
+            tvShow.EpisodeTitle = ParseEpisodeTitle(regexMatch);
 
             return tvShow;
         }
 
-        public string ParseTitle(Match regexMatch)
+        private string ParseEpisodeTitle(Match regexMatch)
         {
-            var title = regexMatch.Groups[RegexTitleGroup].Value;
-
-            if (string.IsNullOrEmpty(title))
+            var episodeTitle = regexMatch.Groups[RegexEpisodeTitleGroup].Value;
+            if (!string.IsNullOrEmpty(episodeTitle))
             {
-                Logger.ErrorFormat("Failed to parse title {0}", regexMatch);
-                return string.Empty;
+                Logger.DebugFormat("Successfully parsed episode title {0}", episodeTitle);
+                return episodeTitle.Trim();
             }
 
-            Logger.DebugFormat("Successfully parsed title {0}", title);
-            return title;
+            Logger.ErrorFormat("No episode title data to parse in production definition {0}", regexMatch);
+            return string.Empty;
+        }
+
+        private int ParseEpisodeNumber(Match regexMatch)
+        {
+            var episodeNumber = regexMatch.Groups[RegexEpisodeNumberGroup].Value;
+            if (!string.IsNullOrEmpty(episodeNumber))
+            {
+                try
+                {
+                    int parsedEpisodeNumber = int.Parse(episodeNumber);
+                    Logger.DebugFormat("Successfully parsed episode number {0}", episodeNumber);
+                    return parsedEpisodeNumber;
+                }
+                catch (FormatException)
+                {
+                    Logger.ErrorFormat("Failed to parse episode number {0}", episodeNumber);
+                    return 0;
+                }
+            }
+            
+            Logger.Debug("No episode number to parse.");
+            return 0;
+        }
+
+        private int ParseSeriesNumber(Match regexMatch)
+        {
+            var seriesNumber = regexMatch.Groups[RegexSeriesNumberGroup].Value;
+            if (!string.IsNullOrEmpty(seriesNumber))
+            {
+                try
+                {
+                    int parsedSeriesNumber = int.Parse(seriesNumber);
+                    Logger.DebugFormat("Successfully parsed series number {0}", seriesNumber);
+                    return parsedSeriesNumber;
+                }
+                catch (FormatException)
+                {
+                    Logger.ErrorFormat("Failed to parse series number {0}", seriesNumber);
+                    return 0;
+                }
+            }
+            
+            Logger.Debug("No series number to parse");
+            return 0;
+        }
+
+        public string ParseTitle(Match regexMatch)
+        {
+            var title = regexMatch.Groups[RegexTitleGroup].Value.Trim();
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                Logger.DebugFormat("Successfully parsed title {0}", title);
+                return title;
+            }
+
+            Logger.DebugFormat("No title data to parse in production definition {0}", regexMatch);
+            return string.Empty; 
         }
 
         public int ParseYear(Match regexMatch)
         {
             var year = regexMatch.Groups[RegexYearGroup].Value;
 
-            try
+            if (!string.IsNullOrEmpty(year))
             {
-                Logger.DebugFormat("Successfully parsed year {0}", year);
-                return int.Parse(year);
+                try
+                {
+                    int parsedYear = int.Parse(year);
+                    Logger.DebugFormat("Successfully parsed year {0}", year);
+                    return parsedYear;
+                }
+                catch (FormatException)
+                {
+                    Logger.ErrorFormat("Failed to parse year {0}", year);
+                    return 0;
+                }
             }
-            catch (FormatException)
-            {
-                Logger.ErrorFormat("Failed to parse year {0}", year);
-                return 0;
-            }
+
+            Logger.Debug("No year data to parse.");
+            return 0;
         }
     }
 }

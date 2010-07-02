@@ -75,5 +75,41 @@ namespace IMDb.DataFiles.Parser.Test
             var actual = new ProductionParser(logger.Object).Parse(productionDefinition);
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void TestParseCreatesValidTelevisionShowObjectWithNoSeriesOrEpisodeNumbers() {
+            var productionDefinition = @"# ""'t Schaep Met De 5 Pooten"" (1969) {Liedjes uit 't Schaep Met 5 Pooten}";
+            var expected = new TelevisionShow
+            {
+                Title = "'t Schaep Met De 5 Pooten",
+                Year = 1969,
+                EpisodeTitle = "Liedjes uit 't Schaep Met 5 Pooten",
+                SeriesNumber = 0,
+                EpisodeNumber = 0
+            };
+
+            var logger = new Mock<ILog>();
+            var actual = new ProductionParser(logger.Object).Parse(productionDefinition);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void TestParseCreatesValidTelevisionShowObjectWithNoEpisodeTitle() {
+            var productionDefinition = @"# ""1 quart de 3"" (2008) {(#1.1)}";
+
+            var expected = new TelevisionShow()
+            {
+                Title = "1 quart de 3",
+                Year = 2008,
+                SeriesNumber = 1,
+                EpisodeNumber = 1,
+                EpisodeTitle = string.Empty
+            };
+
+            var logger = new Mock<ILog>();
+            var actual = new ProductionParser(logger.Object).Parse(productionDefinition);
+            Assert.AreEqual(expected, actual);
+        }
+
     }
 }
