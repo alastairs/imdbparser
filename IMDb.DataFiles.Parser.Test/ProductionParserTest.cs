@@ -112,17 +112,30 @@ namespace IMDb.DataFiles.Parser.Test
         }
 
         [Test]
-        public void TestParseCreatesValidTelevisionShowObjectWithNoEpisodeInformation()
+        public void TestParseCreatesValidMovieObjectForTelevisionMovie()
         {
             var productionDefinition = @"# Zenon: Z3 (2004) (TV)";
 
-            var expected = new TelevisionShow()
+            var expected = new Movie()
             {
                 Title = "Zenon: Z3",
-                Year = 2004,
-                SeriesNumber = 0,
-                EpisodeNumber = 0,
-                EpisodeTitle = string.Empty
+                Year = 2004
+            };
+
+            var logger = new Mock<ILog>();
+            var actual = new ProductionParser(logger.Object).Parse(productionDefinition);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void TestParseCreatesValidMovieObjectForStraightToVideoRelease()
+        {
+            var productionDefinition = @"# Yellow Lights (2007) (V)";
+
+            var expected = new Movie()
+            {
+                Title = "Yellow Lights",
+                Year = 2007
             };
 
             var logger = new Mock<ILog>();

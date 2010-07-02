@@ -16,12 +16,13 @@ namespace IMDb.DataFiles.Parser
         private const string RegexEpisodeTitleGroup = "episodeTitle";
         private const string RegexTvMovieGroup = "tvMovie";
         private const string RegexVideoGameGroup = "videoGame";
+        private const string RegexVideoReleaseGroup = "video";
 
         private const string RegexSeriesNumberGroup = "series";
         private const string RegexEpisodeNumberGroup = "episode";
 
         private static readonly Regex ProductionTitleLineRegex = new Regex(
-            @"^\# ""?(?<title>.*?)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>[^\(].*[^\)])?\s*(?:\(\#(?<series>\d+)\.(?<episode>\d+)\))?\})?| \((?<videoGame>VG)\)| \((?<tvMovie>TV)\))?$",
+            @"^\# ""?(?<title>.*?)""? \((?<year>\d{4})\)( (\{(?<episodeTitle>[^\(].*[^\)])?\s*(?:\(\#(?<series>\d+)\.(?<episode>\d+)\))?\})?| \((?<videoGame>VG)\)| \((?<tvMovie>TV)\)| \((?<video>V)\))?$",
             RegexOptions.ExplicitCapture | RegexOptions.Compiled | RegexOptions.Multiline);
 
         protected ILog Logger { get; private set; }
@@ -69,9 +70,8 @@ namespace IMDb.DataFiles.Parser
         {
             bool hasEpisodeTitle = match.Groups[RegexEpisodeTitleGroup].Length > 0;
             bool hasSeriesNumber = match.Groups[RegexSeriesNumberGroup].Length > 0;
-            bool isTvMovie = match.Groups[RegexTvMovieGroup].Length > 0;
 
-            return hasEpisodeTitle || hasSeriesNumber || isTvMovie;
+            return hasEpisodeTitle || hasSeriesNumber;
         }
 
         private IProduction ParseMovie(Match regexMatch)
