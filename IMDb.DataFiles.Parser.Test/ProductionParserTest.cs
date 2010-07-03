@@ -112,11 +112,11 @@ namespace IMDb.DataFiles.Parser.Test
         }
 
         [Test]
-        public void TestParseCreatesValidMovieObjectForTelevisionMovie()
+        public void TestParseCreatesValidTelevisionMovieObjectForTelevisionMovie()
         {
             var productionDefinition = @"# Zenon: Z3 (2004) (TV)";
 
-            var expected = new Movie()
+            var expected = new TelevisionMovie()
             {
                 Title = "Zenon: Z3",
                 Year = 2004
@@ -128,11 +128,11 @@ namespace IMDb.DataFiles.Parser.Test
         }
 
         [Test]
-        public void TestParseCreatesValidMovieObjectForStraightToVideoRelease()
+        public void TestParseCreatesValidVideoMovieObjectForStraightToVideoRelease()
         {
             var productionDefinition = @"# Yellow Lights (2007) (V)";
 
-            var expected = new Movie()
+            var expected = new VideoMovie()
             {
                 Title = "Yellow Lights",
                 Year = 2007

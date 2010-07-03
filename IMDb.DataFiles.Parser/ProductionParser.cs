@@ -48,6 +48,16 @@ namespace IMDb.DataFiles.Parser
                     Logger.DebugFormat("Parsing VideoGame {0}", productionDefinition);
                     production = ParseVideoGame(match);
                 }
+                else if (IsVideoMovie(match))
+                {
+                    Logger.DebugFormat("Parsing VideoMovie {0}", productionDefinition);
+                    production = ParseVideoMovie(match);
+                }
+                else if (IsTelevisionMovie(match))
+                {
+                    Logger.DebugFormat("Parsing TelevisionMovie {0}", productionDefinition);
+                    production = ParseTelevisionMovie(match);
+                }
                 else
                 {
                     Logger.DebugFormat("Parsing Movie {0}", productionDefinition);
@@ -59,6 +69,16 @@ namespace IMDb.DataFiles.Parser
 
             Logger.ErrorFormat("Failed to parse the production definition {0}", productionDefinition);
             return null;
+        }
+
+        private static bool IsVideoMovie(Match match)
+        {
+            return match.Groups[RegexVideoReleaseGroup].Length > 0;
+        }
+
+        private static bool IsTelevisionMovie(Match match)
+        {
+            return match.Groups[RegexTvMovieGroup].Length > 0;
         }
 
         private static bool IsVideoGame(Match match)
@@ -88,6 +108,22 @@ namespace IMDb.DataFiles.Parser
             videoGame.Title = ParseTitle(regexMatch);
             videoGame.Year = ParseYear(regexMatch);
             return videoGame;
+        }
+
+        private IProduction ParseTelevisionMovie(Match regexMatch)
+        {
+            var tvShow = new TelevisionMovie();
+            tvShow.Title = ParseTitle(regexMatch);
+            tvShow.Year = ParseYear(regexMatch);
+            return tvShow;
+        }
+
+        private IProduction ParseVideoMovie(Match regexMatch)
+        {
+            var videoRelease = new VideoMovie();
+            videoRelease.Title = ParseTitle(regexMatch);
+            videoRelease.Year = ParseYear(regexMatch);
+            return videoRelease;
         }
 
         private IProduction ParseTelevisionShow(Match regexMatch)
